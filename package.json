@@ -1,0 +1,57 @@
+{
+  "name": "electron-react-starter",
+  "version": "0.1.0",
+  "main": "electron/main.js",
+  "homepage": "./",
+  "private": true,
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.1"
+  },
+  "scripts": {
+    "start": "concurrently -k \"npm run start:react\" \"npm run start:electron\"",
+    "start:react": "cross-env BROWSER=none && react-scripts start",
+    "start:electron": "wait-on tcp:3000 && electronmon .",
+    "build:react": "react-scripts build",
+    "build:electron": "mkdir build\\src && Xcopy /E /I /Y electron build\\electron",
+    "build": "npm run build:react && npm run build:electron && electron-builder build -c.extraMetadata.main=build/electron/main.js",
+    "release": "npm run build && electron-builder build -c.extraMetadata.main=build/electron/main.js --publish never",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^9.1.0",
+    "electron-builder": "^22.7.0",
+    "electronmon": "^2.0.2",
+    "wait-on": "^6.0.1"
+  },
+  "build": {
+    "appId": "com.example.electron-react",
+    "productName": "electron-react",
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ]
+  }
+}
